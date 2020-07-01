@@ -28,12 +28,12 @@ public class Json2PojoFromFieldsGenerator {
 
     public static final String FOLDER_NAME_FOR_GENERATED_POJO = "generated";
 
-    public static void generatePojoFromUri(String uri, String className, String packageName, String fields) throws IOException, ClassNotFoundException {
+    public static void generatePojoFromUri(String uri, String className, String packageName, String fields) throws IOException {
         final String json = readJson(uri);
         generatePojoFromJson(json, className, packageName, fields);
     }
 
-    public static void generatePojoFromJson(String json, String className, String packageName, String fields) throws IOException, ClassNotFoundException {
+    public static void generatePojoFromJson(String json, String className, String packageName, String fields) throws IOException {
         generatePojoFromJson(json, className, packageName);
         if (fields != null) {
             generatePojoFromFields(json, fields, className, packageName);

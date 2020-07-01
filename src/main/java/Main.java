@@ -3,7 +3,7 @@ import java.io.IOException;
 public class Main {
 
 
-    public static void main(String[] args) throws IOException, ClassNotFoundException {
+    public static void main(String[] args) throws IOException {
         //for creating pojo from URL with json
         Json2PojoFromFieldsGenerator.generatePojoFromUri("https://reqres.in/api/products", "Xz", "com.example", null);
         //for creating pojo from URL only from fields of json

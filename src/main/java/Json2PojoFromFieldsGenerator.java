@@ -79,6 +79,11 @@ public class Json2PojoFromFieldsGenerator {
             public SourceType getSourceType() {
                 return SourceType.JSON;
             }
+            
+            @Override
+            public boolean isIncludeAdditionalProperties() {
+                return false;
+            }
         };
     }
 

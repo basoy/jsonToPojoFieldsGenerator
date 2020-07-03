@@ -4,6 +4,7 @@ public class Main {
 
 
     public static void main(String[] args) throws IOException {
+        //WARNING: each call of methods 'generatePojoFrom...'() delete and re-create directory, so only last invoke will be shown.
         //for creating pojo from URL with json
         Json2PojoFromFieldsGenerator.generatePojoFromUri("https://reqres.in/api/products", "Xz", "com.example", null);
         //for creating pojo from URL only from fields of json

@@ -11,12 +11,9 @@ import org.jsonschema2pojo.Annotator;
 import org.jsonschema2pojo.Schema;
 import org.jsonschema2pojo.exception.ClassAlreadyExistsException;
 import org.jsonschema2pojo.exception.GenerationException;
-import org.jsonschema2pojo.rules.ObjectRule;
 import org.jsonschema2pojo.rules.Rule;
 import org.jsonschema2pojo.rules.RuleFactory;
-import org.jsonschema2pojo.util.ParcelableHelper;
 import org.jsonschema2pojo.util.ReflectionHelper;
-import org.jsonschema2pojo.util.SerializableHelper;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.sun.codemodel.ClassType;
@@ -37,11 +34,9 @@ public class CustomObjectRule implements Rule<JPackage, JType> {
 
     private final RuleFactory ruleFactory;
     private final ReflectionHelper reflectionHelper;
-    private final ParcelableHelper parcelableHelper;
 
-    public CustomObjectRule(RuleFactory ruleFactory, ParcelableHelper parcelableHelper, ReflectionHelper reflectionHelper) {
+    public CustomObjectRule(RuleFactory ruleFactory, ReflectionHelper reflectionHelper) {
         this.ruleFactory = ruleFactory;
-        this.parcelableHelper = parcelableHelper;
         this.reflectionHelper = reflectionHelper;
     }
 
@@ -72,11 +67,6 @@ public class CustomObjectRule implements Rule<JPackage, JType> {
             ruleFactory.getDescriptionRule().apply(nodeName, node.get("description"), node, jclass, schema);
         }
 
-        // Creates the class definition for the builder
-        if (ruleFactory.getGenerationConfig().isGenerateBuilders() && ruleFactory.getGenerationConfig().isUseInnerClassBuilders()) {
-            ruleFactory.getBuilderRule().apply(nodeName, node, parent, jclass, schema);
-        }
-
         ruleFactory.getPropertiesRule().apply(nodeName, node.get("properties"), node, jclass, schema);
 
         if (node.has("javaInterfaces")) {
@@ -88,16 +78,10 @@ public class CustomObjectRule implements Rule<JPackage, JType> {
         if (node.has("required")) {
             ruleFactory.getRequiredArrayRule().apply(nodeName, node.get("required"), node, jclass, schema);
         }
-        if (ruleFactory.getGenerationConfig().isIncludeToString()) {
             addToString(jclass);
-        }
-
-        if (ruleFactory.getGenerationConfig().isIncludeConstructors()) {
             ruleFactory.getConstructorRule().apply(nodeName, node, parent, jclass, schema);
 
-        }
-        return jclass;
-
+            return jclass;
     }
 
     private JDefinedClass createClass(String nodeName, JsonNode node, JPackage _package) throws ClassAlreadyExistsException {
@@ -170,12 +154,9 @@ public class CustomObjectRule implements Rule<JPackage, JType> {
 
         JBlock body = toString.body();
 
-        // The following toString implementation roughly matches the commons ToStringBuilder for
-        // backward compatibility
         JClass stringBuilderClass = jclass.owner().ref(StringBuilder.class);
         JVar sb = body.decl(stringBuilderClass, "sb", JExpr._new(stringBuilderClass));
 
-        // Write the header, e.g.: example.domain.MyClass@85e382a7[
         body.add(sb
                 .invoke("append").arg(jclass.dotclass().invoke("getName"))
                 .invoke("append").arg(JExpr.lit('[')));
@@ -210,7 +191,6 @@ public class CustomObjectRule implements Rule<JPackage, JType> {
         }
 
         boolean isFirstTime = true;
-        // For each included instance field, add to the StringBuilder in the field=value format
         for (JFieldVar fieldVar : fields.values()) {
             if (isFirstTime) {
                 body.add(sb.invoke("append").arg(fieldVar.name() + '='));

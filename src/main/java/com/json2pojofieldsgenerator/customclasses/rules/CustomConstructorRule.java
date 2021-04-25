@@ -19,7 +19,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
-import org.jsonschema2pojo.GenerationConfig;
 import org.jsonschema2pojo.Schema;
 import org.jsonschema2pojo.rules.Rule;
 import org.jsonschema2pojo.rules.RuleFactory;
@@ -42,26 +41,14 @@ public class CustomConstructorRule implements Rule<JDefinedClass, JDefinedClass>
 
     private void handleMultiChoiceConstructorConfiguration(JsonNode node, JDefinedClass instanceClass, Schema currentSchema) {
         boolean requiresConstructors = false;
-        LinkedHashSet<String> requiredClassProperties = null;
-        LinkedHashSet<String> classProperties = null;
-        LinkedHashSet<String> requiredCombinedSuperProperties = null;
-        LinkedHashSet<String> combinedSuperProperties = null;
-        GenerationConfig generationConfig = this.ruleFactory.getGenerationConfig();
-        boolean includeAllPropertiesConstructor = generationConfig.isIncludeAllPropertiesConstructor();
-        boolean includeRequiredPropertiesConstructor = generationConfig.isIncludeRequiredPropertiesConstructor();
-        if (includeAllPropertiesConstructor) {
-            classProperties = this.getConstructorProperties(node, false);
-            combinedSuperProperties = this.getSuperTypeConstructorPropertiesRecursive(node, currentSchema, false);
-            requiresConstructors = requiresConstructors || !classProperties.isEmpty() || !combinedSuperProperties.isEmpty();
-        }
+
+        LinkedHashSet<String> classProperties = this.getConstructorProperties(node, false);
+        LinkedHashSet<String> combinedSuperProperties = this.getSuperTypeConstructorPropertiesRecursive(node, currentSchema, false);
+        requiresConstructors = requiresConstructors || !classProperties.isEmpty() || !combinedSuperProperties.isEmpty();
 
         if (requiresConstructors) {
             if (classProperties.size() + combinedSuperProperties.size() > 0) {
                 this.addFieldsConstructor(instanceClass, classProperties);
-            }
-
-            if (includeRequiredPropertiesConstructor && requiredClassProperties.size() + requiredCombinedSuperProperties.size() > 0) {
-                this.addFieldsConstructor(instanceClass, requiredClassProperties);
             }
         }
 
@@ -155,6 +142,3 @@ public class CustomConstructorRule implements Rule<JDefinedClass, JDefinedClass>
     }
 
 }
-
-
-

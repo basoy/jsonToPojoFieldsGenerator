@@ -78,10 +78,12 @@ public class CustomObjectRule implements Rule<JPackage, JType> {
         if (node.has("required")) {
             ruleFactory.getRequiredArrayRule().apply(nodeName, node.get("required"), node, jclass, schema);
         }
-            addToString(jclass);
-            ruleFactory.getConstructorRule().apply(nodeName, node, parent, jclass, schema);
+        addToString(jclass);
+        ruleFactory.getConstructorRule().apply(nodeName, node, parent, jclass, schema);
 
-            return jclass;
+        makeFinalFields(jclass);
+
+        return jclass;
     }
 
     private JDefinedClass createClass(String nodeName, JsonNode node, JPackage _package) throws ClassAlreadyExistsException {
@@ -93,6 +95,7 @@ public class CustomObjectRule implements Rule<JPackage, JType> {
         try {
             if (node.has("existingJavaType")) {
                 String fqn = substringBefore(node.get("existingJavaType").asText(), "<");
+
 
                 if (isPrimitive(fqn, _package.owner())) {
                     throw new ClassAlreadyExistsException(primitiveType(fqn, _package.owner()));
@@ -147,6 +150,15 @@ public class CustomObjectRule implements Rule<JPackage, JType> {
         return newType;
 
     }
+
+    private void makeFinalFields(JDefinedClass jclass) {
+        if (jclass.fields() != null) {
+            for (JFieldVar field : jclass.fields().values()) {
+                field.mods().setFinal(true);
+            }
+        }
+    }
+
 
     private void addToString(JDefinedClass jclass) {
         Map<String, JFieldVar> fields = jclass.fields();

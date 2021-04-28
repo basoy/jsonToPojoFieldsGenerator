@@ -34,8 +34,6 @@ public class RetrieveClass {
                 return new CustomDefaultRule();
             }
         };
-
-
     }
 
     public static GenerationConfig defaultConfig() {
@@ -45,12 +43,17 @@ public class RetrieveClass {
             public SourceType getSourceType() {
                 return SourceType.JSON;
             }
+
             @Override
             public boolean isIncludeAdditionalProperties() {
                 return false;
             }
 
-        };
+            @Override
+            public boolean isIncludeSetters() {
+                return false;
+            }
 
+        };
     }
 }

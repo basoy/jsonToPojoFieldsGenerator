@@ -6,9 +6,11 @@ import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JFieldVar;
 import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JType;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URI;
+
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
@@ -16,9 +18,6 @@ import org.jsonschema2pojo.Schema;
 import org.jsonschema2pojo.rules.Rule;
 
 public class CustomDefaultRule implements Rule<JFieldVar, JFieldVar> {
-
-    public CustomDefaultRule() {
-    }
 
     public JFieldVar apply(String nodeName, JsonNode node, JsonNode parent, JFieldVar field, Schema currentSchema) {
         boolean defaultPresent = node != null && StringUtils.isNotEmpty(node.asText());
@@ -64,9 +63,9 @@ public class CustomDefaultRule implements Rule<JFieldVar, JFieldVar> {
                     return invokeCreate.arg(JExpr.lit(value));
                 }
             }
-                invokeCreate = JExpr._new(fieldType);
-                invokeCreate.arg(JExpr.lit(value));
-                return invokeCreate;
+            invokeCreate = JExpr._new(fieldType);
+            invokeCreate.arg(JExpr.lit(value));
+            return invokeCreate;
 
         }
     }

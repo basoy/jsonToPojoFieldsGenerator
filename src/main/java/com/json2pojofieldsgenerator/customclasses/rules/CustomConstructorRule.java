@@ -12,7 +12,6 @@ import com.sun.codemodel.JMod;
 import com.sun.codemodel.JVar;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -27,92 +26,38 @@ import org.jsonschema2pojo.util.ReflectionHelper;
 
 public class CustomConstructorRule implements Rule<JDefinedClass, JDefinedClass> {
     private final RuleFactory ruleFactory;
-    private final ReflectionHelper reflectionHelper;
 
     public CustomConstructorRule(RuleFactory ruleFactory, ReflectionHelper reflectionHelper) {
         this.ruleFactory = ruleFactory;
-        this.reflectionHelper = reflectionHelper;
     }
 
     public JDefinedClass apply(String nodeName, JsonNode node, JsonNode parent, JDefinedClass instanceClass, Schema currentSchema) {
-        this.handleMultiChoiceConstructorConfiguration(node, instanceClass, currentSchema);
+        this.addFieldsConstructor(instanceClass, this.getConstructorProperties(node));
         return instanceClass;
-    }
-
-    private void handleMultiChoiceConstructorConfiguration(JsonNode node, JDefinedClass instanceClass, Schema currentSchema) {
-        boolean requiresConstructors = false;
-
-        LinkedHashSet<String> classProperties = this.getConstructorProperties(node, false);
-        LinkedHashSet<String> combinedSuperProperties = this.getSuperTypeConstructorPropertiesRecursive(node, currentSchema, false);
-        requiresConstructors = requiresConstructors || !classProperties.isEmpty() || !combinedSuperProperties.isEmpty();
-
-        if (requiresConstructors) {
-            if (classProperties.size() + combinedSuperProperties.size() > 0) {
-                this.addFieldsConstructor(instanceClass, classProperties);
-            }
-        }
-
     }
 
     private void addFieldsConstructor(JDefinedClass instanceClass, Set<String> classProperties) {
         this.generateFieldsConstructor(instanceClass, classProperties);
     }
 
-    private LinkedHashSet<String> getConstructorProperties(JsonNode node, boolean onlyRequired) {
+    private LinkedHashSet<String> getConstructorProperties(JsonNode node) {
         if (!node.has("properties")) {
             return new LinkedHashSet();
         } else {
             LinkedHashSet<String> rtn = new LinkedHashSet();
-            Set<String> draft4RequiredProperties = new HashSet();
             Iterator properties;
-            if (onlyRequired && node.has("required")) {
-                JsonNode requiredArray = node.get("required");
-                if (requiredArray.isArray()) {
-                    properties = requiredArray.iterator();
-
-                    while (properties.hasNext()) {
-                        JsonNode requiredEntry = (JsonNode) properties.next();
-                        if (requiredEntry.isTextual()) {
-                            draft4RequiredProperties.add(requiredEntry.asText());
-                        }
-                    }
-                }
-            }
 
             NameHelper nameHelper = this.ruleFactory.getNameHelper();
             properties = node.get("properties").fields();
 
             while (properties.hasNext()) {
                 Entry<String, JsonNode> property = (Entry) properties.next();
-                JsonNode propertyObj = property.getValue();
-                if (onlyRequired) {
-                    if (propertyObj.has("required") && propertyObj.get("required").asBoolean()) {
-                        rtn.add(nameHelper.getPropertyName((String) property.getKey(), (JsonNode) property.getValue()));
-                    }
-
-                    if (draft4RequiredProperties.contains(property.getKey())) {
-                        rtn.add(nameHelper.getPropertyName((String) property.getKey(), (JsonNode) property.getValue()));
-                    }
-                } else {
-                    rtn.add(nameHelper.getPropertyName((String) property.getKey(), (JsonNode) property.getValue()));
-                }
+                rtn.add(nameHelper.getPropertyName((String) property.getKey(), (JsonNode) property.getValue()));
             }
-
             return rtn;
         }
     }
 
-    private LinkedHashSet<String> getSuperTypeConstructorPropertiesRecursive(JsonNode node, Schema schema, boolean onlyRequired) {
-        Schema superTypeSchema = this.reflectionHelper.getSuperSchema(node, schema, true);
-        if (superTypeSchema == null) {
-            return new LinkedHashSet();
-        } else {
-            JsonNode superSchemaNode = superTypeSchema.getContent();
-            LinkedHashSet<String> rtn = this.getConstructorProperties(superSchemaNode, onlyRequired);
-            rtn.addAll(this.getSuperTypeConstructorPropertiesRecursive(superSchemaNode, superTypeSchema, onlyRequired));
-            return rtn;
-        }
-    }
 
     private JMethod generateFieldsConstructor(JDefinedClass jclass, Set<String> classProperties) {
         JMethod fieldsConstructor = jclass.constructor(JMod.PUBLIC);
@@ -137,7 +82,6 @@ public class CustomConstructorRule implements Rule<JDefinedClass, JDefinedClass>
                     .ref(field), param);
 
         }
-
         return fieldsConstructor;
     }
 

@@ -2,6 +2,7 @@
 package com.example;
 
 import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -15,7 +16,7 @@ public class Xz {
     private final List<Datum> data;
     private final Support support;
 
- public Xz(@JsonProperty("page") Integer page, @JsonProperty("perPage") Integer perPage, @JsonProperty("total") Integer total, @JsonProperty("totalPages") Integer totalPages, @JsonProperty("data") List<Datum> data, @JsonProperty("support") Support support) {
+    public Xz(@JsonProperty("page") Integer page, @JsonProperty("perPage") Integer perPage, @JsonProperty("total") Integer total, @JsonProperty("totalPages") Integer totalPages, @JsonProperty("data") List<Datum> data, @JsonProperty("support") Support support) {
         this.page = page;
         this.perPage = perPage;
         this.total = total;
@@ -24,27 +25,27 @@ public class Xz {
         this.support = support;
     }
 
-    public Integer getPage() {
+    public Integer page() {
         return page;
     }
 
-    public Integer getPerPage() {
+    public Integer per_page() {
         return perPage;
     }
 
-    public Integer getTotal() {
+    public Integer total() {
         return total;
     }
 
-    public Integer getTotalPages() {
+    public Integer total_pages() {
         return totalPages;
     }
 
-    public List<Datum> getData() {
+    public List<Datum> data() {
         return data;
     }
 
-    public Support getSupport() {
+    public Support support() {
         return support;
     }
 

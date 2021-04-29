@@ -59,26 +59,12 @@ public class CustomObjectRule implements Rule<JPackage, JType> {
 
         schema.setJavaTypeIfEmpty(jclass);
 
-        if (node.has("title")) {
-            ruleFactory.getTitleRule().apply(nodeName, node.get("title"), node, jclass, schema);
-        }
-
-        if (node.has("description")) {
-            ruleFactory.getDescriptionRule().apply(nodeName, node.get("description"), node, jclass, schema);
-        }
-
         ruleFactory.getPropertiesRule().apply(nodeName, node.get("properties"), node, jclass, schema);
-
-        if (node.has("javaInterfaces")) {
-            addInterfaces(jclass, node.get("javaInterfaces"));
-        }
 
         ruleFactory.getDynamicPropertiesRule().apply(nodeName, node.get("properties"), node, jclass, schema);
 
-        if (node.has("required")) {
-            ruleFactory.getRequiredArrayRule().apply(nodeName, node.get("required"), node, jclass, schema);
-        }
         addToString(jclass);
+
         ruleFactory.getConstructorRule().apply(nodeName, node, parent, jclass, schema);
 
         makeFinalFields(jclass);
@@ -159,7 +145,6 @@ public class CustomObjectRule implements Rule<JPackage, JType> {
         }
     }
 
-
     private void addToString(JDefinedClass jclass) {
         Map<String, JFieldVar> fields = jclass.fields();
         JMethod toString = jclass.method(JMod.PUBLIC, String.class, "toString");
@@ -236,16 +221,9 @@ public class CustomObjectRule implements Rule<JPackage, JType> {
 
         body.add(sb.invoke("append").arg(JExpr.lit(']')));
 
-
         body._return(sb.invoke("toString"));
 
         toString.annotate(Override.class);
-    }
-
-    private void addInterfaces(JDefinedClass jclass, JsonNode javaInterfaces) {
-        for (JsonNode i : javaInterfaces) {
-            jclass._implements(resolveType(jclass._package(), i.asText()));
-        }
     }
 
 }

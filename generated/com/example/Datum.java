@@ -13,7 +13,7 @@ public class Datum {
     private final String color;
     private final String pantoneValue;
 
- public Datum(@JsonProperty("id") Integer id, @JsonProperty("name") String name, @JsonProperty("year") Integer year, @JsonProperty("color") String color, @JsonProperty("pantoneValue") String pantoneValue) {
+    public Datum(@JsonProperty("id") Integer id, @JsonProperty("name") String name, @JsonProperty("year") Integer year, @JsonProperty("color") String color, @JsonProperty("pantoneValue") String pantoneValue) {
         this.id = id;
         this.name = name;
         this.year = year;
@@ -21,23 +21,23 @@ public class Datum {
         this.pantoneValue = pantoneValue;
     }
 
-    public Integer getId() {
+    public Integer id() {
         return id;
     }
 
-    public String getName() {
+    public String name() {
         return name;
     }
 
-    public Integer getYear() {
+    public Integer year() {
         return year;
     }
 
-    public String getColor() {
+    public String color() {
         return color;
     }
 
-    public String getPantoneValue() {
+    public String pantone_value() {
         return pantoneValue;
     }
 

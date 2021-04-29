@@ -29,7 +29,6 @@ public class CustomDefaultRule implements Rule<JFieldVar, JFieldVar> {
         } else if (defaultPresent) {
             field.init(getDefaultValue(field.type(), node));
         }
-
         return field;
     }
 

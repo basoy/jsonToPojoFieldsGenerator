@@ -10,16 +10,16 @@ public class Support {
     private final String url;
     private final String text;
 
- public Support(@JsonProperty("url") String url, @JsonProperty("text") String text) {
+    public Support(@JsonProperty("url") String url, @JsonProperty("text") String text) {
         this.url = url;
         this.text = text;
     }
 
-    public String getUrl() {
+    public String url() {
         return url;
     }
 
-    public String getText() {
+    public String text() {
         return text;
     }
 

@@ -1,0 +1,62 @@
+Serhii Bashniak
+
+Phone number:  (437) 777- 4183 (Mobile)	 Email address: basoy1988@gmail.com 
+Address: 3 Marblehead Rd, Etobicoke, ON M9R 3B1 
+
+Profile
+Senior software developer with about 10 years of experience in developing java applications for banking systems, implementing pay systems (Google Pay, P2P, A2P),  offering technical expertise in development and programming analysis, application analysis and design. 
+Skills
+Responsible, hard-working, love technical challenges
+Self - starter, team player
+Excellent organization, time management, problem-solving, and analytical skills
+Ability to handle pressure and focus on results
+Technology
+Java 5-20, Java EE technologies(JPA, JSP, Servlets).
+Docker, Kubernetes, Microservice architecture in Client-Server applications
+Open source projects such as Spring(loC, Security, MVC, Data, AOP), Hibernate.
+Databases: MySQL, MSSQL, PostgreSQL(Hibemate/JPA), MongoDB.
+Rest architecture and related formats for it (JSON, XML).
+Web technologies: HTML, CSS, JS, Jquery. VCS tools like Git,SVN.
+Message brokers: ActiveMQ, RabbitMQ.
+Experience
+22/01/2020 – CURRENT Kiev, Ukraine
+SOFTENGI - SENIOR SOFTWARE DEVELOPER
+Project: Created api-driven hub to serve clients with the aggregate information for Telecom company: billing, scoring, usage, etc. The solution was Java Based on the Linux system(Spring + Java 11-20 + Red Hat). The api gateway was receiving requests from the clients, authenticated callers, and processed requests by calling internal  APIs and responding with  aggregated  response.
+Developed eSIM technology for telecom company 
+Developed module to  generate QRCode for mobile application
+Implemented Authentication and Authorization modules for the aggregator
+Designed and developed hub 
+Solved issues with manual deployment by developing a package that used different technologies (Maven, Artifactory) that gathered packages, built and created artifacts, deployed to servers
+Developed solution for automated parsing of json and creating java classes with Facebook graph API (demo: https://github.com/basoy/jsonToPojoFieldsGenerator) which increase speed of  development team for more than 70%.
+Supported legacy system 
+02/2019 – 24/01/2020 Kyiv, Ukraine
+INFOPULSE, Ukraine - SENIOR SOFTWARE DEVELOPER ENGINEER
+Project: The company had a financial client-based application to serve client requests for doing day to day banking, money transfer, balance checking, managing profiles. Etc. Technologu used: Java application on Linux. The task was to create payment functionality in Payment Module
+Implemented SEPA payments for the banking system which is first used in scandinavian banks
+Designed and built classes based on diagrams designed by architect using SOLID principles
+Refactor legacy system
+Developed unit tests using JUnit
+03/2017 - 02/2019
+ALFABANK, Ukraine -  SENIOR JAVA BACKEND DEVELOPER, ALFABANK 
+Developed a payment processing system for a bank, which ranked among the top 5 in Ukraine to achieve this. As a result, I received a 30% salary increase.
+Implemented Google Pay for existing banking  system using Java
+Had to create simplified version of connectivity due to time limit given to authorization
+Developed trading solution and money transfer solution ( P2P(plastic to plastic money transfer), A2P(international P2P)
+Used SOAP and Rest-арі for WS02, J2EE, Oracle.
+09/2016 – 04/2017 Kyiv, Ukraine
+ITTEAM - JAVA BACKEND DEVELOPER 
+Developed  E-Commerce and Market Place business project and Social Network project
+Technology used: J2EE(Spring-Boot, JMS), Hibernate, MongoDB, Postgres, REST(JSON), Jersey, Solr, RabbitMQ, OAuth2 and Tomcat with Jenkins.
+10/2014 – 05/2015 Kyiv, Ukraine
+NABUS  -  JAVA DEVELOPER (REMOTE WORK) 
+Writing auto-uploader files (JSP, Servlets, JS, IIS) for Coldfusion server and recognizer of cars in traffic (J2EE, OpenCV).
+ANTONOV AERONAUTICAL SCIENTIFIC-TECHNICAL COMPLEX -SOFTWARE ENGINEER
+Parsed and processed doming events from machine tools. 
+Wrote views and controllers for showing different monitoring information about states of machine tools and helped designers  to decorate views. (J2EE, Hibernate, Ajax, HTML, CSS, JavaScript, JSON, MS SQL, Tomcat). 
+Was promoted to team lead in 1.5 years. Lead team of three people.
+We were the first in Europe to create an aircraft without a single paper drawing (we fully automated document management). This achievement earned us a silver award medal.
+
+Education
+2012-2015
+SOFTWARE DEVELOPMENT Computer Academy  "IT STEP" 
+Bachelor of Technology
